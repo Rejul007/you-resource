@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-import PostCard from '@/components/PostCard';
 import PostsFilterClient from '@/components/PostsFilterClient';
 
 export const dynamic = 'force-dynamic';
@@ -28,8 +27,10 @@ export default async function PostsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Browse Resources</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>
+            Browse Resources
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: '#5a3828' }}>
             {posts.length} resource request{posts.length !== 1 ? 's' : ''} from the community
           </p>
         </div>
@@ -40,7 +41,6 @@ export default async function PostsPage() {
           Request Resources
         </a>
       </div>
-
       <PostsFilterClient posts={posts} subjects={subjects} />
     </div>
   );

@@ -1,19 +1,74 @@
-export const subjectColors: Record<string, { bg: string; text: string; border: string }> = {
-  Mathematics: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200' },
-  Physics: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-200' },
-  'Computer Science': { bg: 'bg-green-100', text: 'text-green-800', border: 'border-green-200' },
-  Chemistry: { bg: 'bg-teal-100', text: 'text-teal-800', border: 'border-teal-200' },
-  Biology: { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200' },
-  History: { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-200' },
-  Economics: { bg: 'bg-yellow-100', text: 'text-yellow-800', border: 'border-yellow-200' },
-  Literature: { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200' },
-  Geography: { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-200' },
-  Philosophy: { bg: 'bg-violet-100', text: 'text-violet-800', border: 'border-violet-200' },
-  Psychology: { bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-200' },
-  Engineering: { bg: 'bg-cyan-100', text: 'text-cyan-800', border: 'border-cyan-200' },
-  default: { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-200' },
+// Dark-theme subject color system for QuantSun-style UI
+// Returns inline style objects since these use rgba values not in Tailwind's default palette
+
+export interface SubjectStyle {
+  bg: string;
+  text: string;
+  border: string;
+  // Inline style version for glassmorphic badges
+  style: {
+    background: string;
+    color: string;
+    border: string;
+  };
+}
+
+const subjectMap: Record<string, SubjectStyle> = {
+  Mathematics: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.28)' },
+  },
+  Physics: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(139,92,246,0.12)', color: '#c4b5fd', border: '1px solid rgba(139,92,246,0.28)' },
+  },
+  'Computer Science': {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(16,185,129,0.12)', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.28)' },
+  },
+  Chemistry: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(20,184,166,0.12)', color: '#5eead4', border: '1px solid rgba(20,184,166,0.28)' },
+  },
+  Biology: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(34,197,94,0.12)', color: '#86efac', border: '1px solid rgba(34,197,94,0.28)' },
+  },
+  History: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(245,158,11,0.12)', color: '#fcd34d', border: '1px solid rgba(245,158,11,0.28)' },
+  },
+  Economics: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(234,179,8,0.12)', color: '#fde047', border: '1px solid rgba(234,179,8,0.28)' },
+  },
+  Literature: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(244,63,94,0.12)', color: '#fda4af', border: '1px solid rgba(244,63,94,0.28)' },
+  },
+  Geography: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(249,115,22,0.12)', color: '#fdba74', border: '1px solid rgba(249,115,22,0.28)' },
+  },
+  Philosophy: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(167,139,250,0.12)', color: '#ddd6fe', border: '1px solid rgba(167,139,250,0.28)' },
+  },
+  Psychology: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(236,72,153,0.12)', color: '#f9a8d4', border: '1px solid rgba(236,72,153,0.28)' },
+  },
+  Engineering: {
+    bg: '', text: '', border: '',
+    style: { background: 'rgba(14,165,233,0.12)', color: '#7dd3fc', border: '1px solid rgba(14,165,233,0.28)' },
+  },
 };
 
-export function getSubjectColors(subject: string) {
-  return subjectColors[subject] || subjectColors.default;
+const defaultStyle: SubjectStyle = {
+  bg: '', text: '', border: '',
+  style: { background: 'rgba(193,127,58,0.12)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.28)' },
+};
+
+export function getSubjectColors(subject: string): SubjectStyle {
+  return subjectMap[subject] || defaultStyle;
 }

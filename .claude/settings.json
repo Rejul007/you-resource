@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -oE '\\(className|class\\)=\"\"\"\"[^\"\"\"\"]{10,50}\"\"\"\"')",
+      "Bash(curl -s https://quantsun.s1tanshu.workers.dev/)",
+      "Bash(curl -s https://quantsun.s1tanshu.workers.dev/assets/index-B5lkTD0F.js)",
+      "Bash(grep -o '#[0-9a-fA-F]\\\\{3,6\\\\}')",
+      "Read(//Users/Rejul/Desktop/claude-hackathon/**)"
+    ]
+  }
+}
