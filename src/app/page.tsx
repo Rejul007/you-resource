@@ -60,9 +60,7 @@ export default async function HomePage() {
           <div className="mt-10">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-bold" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>Recent Requests</h2>
-              <a href="/posts" className="text-sm font-medium transition-colors duration-150" style={{ color: '#9A7A62' }}
-                onMouseEnter={undefined} onMouseLeave={undefined}
-              >Browse all &rarr;</a>
+              <a href="/posts" className="text-sm font-medium transition-colors duration-150" style={{ color: '#9A7A62' }}>Browse all &rarr;</a>
             </div>
             {serializedPosts.length === 0 ? (
               <div className="card p-12 text-center">

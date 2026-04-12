@@ -5,7 +5,19 @@
       "Bash(curl -s https://quantsun.s1tanshu.workers.dev/)",
       "Bash(curl -s https://quantsun.s1tanshu.workers.dev/assets/index-B5lkTD0F.js)",
       "Bash(grep -o '#[0-9a-fA-F]\\\\{3,6\\\\}')",
-      "Read(//Users/Rejul/Desktop/claude-hackathon/**)"
+      "Read(//Users/Rejul/Desktop/claude-hackathon/**)",
+      "Bash(grep -l \"bg-white\\\\|text-gray-900\\\\|border-gray-200\\\\|bg-indigo\" src/components/*.tsx src/app/**/*.tsx)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/jobs.json\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/competitions.json\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/internships.json\")",
+      "Bash(curl -s https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/courses.json)",
+      "Bash(curl -s https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/competitions.json)",
+      "Bash(curl -s https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/internships.json)",
+      "Bash(python3:*)",
+      "Bash(node scripts/seed.mjs)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
     ]
   }
 }

@@ -1,26 +1,32 @@
+'use client';
+
 import React from 'react';
 
 const quickResources = [
-  { title: 'MDN Web Docs', url: 'https://developer.mozilla.org', description: 'Web technology documentation' },
-  { title: 'Khan Academy', url: 'https://www.khanacademy.org', description: 'Free courses for all ages' },
   { title: 'MIT OpenCourseWare', url: 'https://ocw.mit.edu', description: 'Free MIT course materials' },
-  { title: 'Coursera', url: 'https://www.coursera.org', description: 'University courses online' },
-  { title: 'edX', url: 'https://www.edx.org', description: 'Online courses from top universities' },
-  { title: 'arXiv', url: 'https://arxiv.org', description: 'Free scientific preprints' },
+  { title: 'QuantConnect', url: 'https://www.quantconnect.com', description: 'Algorithmic trading & backtesting' },
+  { title: 'WorldQuant BRAIN', url: 'https://platform.worldquantbrain.com', description: 'Build & simulate alpha models' },
+  { title: 'Kaggle', url: 'https://www.kaggle.com', description: 'Data science competitions & datasets' },
+  { title: 'arXiv Quant Finance', url: 'https://arxiv.org/list/q-fin/recent', description: 'Latest quant finance papers' },
+  { title: 'SSRN Finance', url: 'https://www.ssrn.com/index.cfm/en/finance/', description: 'Finance working papers & research' },
 ];
 
-const scholarships = [
-  { title: 'Gates Scholarship', url: 'https://www.gatesfoundation.org', description: 'Gates Foundation scholarships' },
-  { title: 'Fulbright Program', url: 'https://foreign.fulbrightonline.org', description: 'US exchange scholarships' },
-  { title: 'Chevening', url: 'https://www.chevening.org', description: 'UK government scholarships' },
-  { title: 'DAAD Scholarships', url: 'https://www.daad.de/en/', description: 'German academic exchange' },
+const internships = [
+  { title: 'Jane Street', url: 'https://www.janestreet.com/join-jane-street/internship/', description: 'QT/QR intern — NYC/London/HK' },
+  { title: 'Citadel', url: 'https://www.citadel.com/careers/open-opportunities/students/', description: 'QR/Trading/SWE intern — Chicago/NYC' },
+  { title: 'Two Sigma', url: 'https://www.twosigma.com/careers/', description: 'Quant Research intern — NYC' },
+  { title: 'D.E. Shaw', url: 'https://www.deshaw.com/careers/internships', description: 'Quant Analyst/Trader intern — NYC' },
+  { title: 'Jump Trading', url: 'https://jumptrading.com/careers/', description: 'Quant Research intern — Chicago' },
+  { title: 'Optiver', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'Trading/SWE intern — Amsterdam/Chicago' },
 ];
 
 const competitions = [
-  { title: 'ICPC', url: 'https://icpc.global', description: 'International Collegiate Programming Contest' },
-  { title: 'Google Code Jam', url: 'https://codingcompetitions.withgoogle.com/codejam', description: 'Google coding competition' },
-  { title: 'International Math Olympiad', url: 'https://www.imo-official.org', description: 'World mathematics olympiad' },
-  { title: 'Science Olympiad', url: 'https://www.soinc.org', description: 'STEM competition for students' },
+  { title: 'IMC Prosperity 2026', url: 'https://prosperity.imc.com', description: 'Python algo trading — $50k prize · Open' },
+  { title: 'WorldQuant IQC 2026', url: 'https://platform.worldquantbrain.com/iqc', description: 'Alpha model competition — Cash + FT · Open' },
+  { title: 'Citadel Quant Invitational', url: 'https://www.citadelsecurities.com/careers/programs-and-events/the-citadel-securities-quant-invitational/', description: 'STEM challenge London — $10k prize' },
+  { title: 'Jane Street AMP 2026', url: 'https://www.janestreet.com/join-jane-street/programs-and-events/amp/', description: '6-week HS program — $5k scholarship' },
+  { title: 'Optiver Career Kickstarter', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'Tech & trading tracks — Amsterdam' },
+  { title: 'SIG Discover 2026', url: 'https://careers.sig.com/discover', description: 'Spring discovery program — Philadelphia' },
 ];
 
 function SidebarSection({
@@ -81,10 +87,10 @@ export default function Sidebar() {
           items={quickResources}
         />
         <SidebarSection
-          title="Scholarships"
+          title="Internships"
           accentColor="#D4923F"
-          icon={<svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>}
-          items={scholarships}
+          icon={<svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+          items={internships}
         />
         <SidebarSection
           title="Competitions"
