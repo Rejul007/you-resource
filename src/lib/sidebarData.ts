@@ -1,0 +1,45 @@
+export const quickResources = [
+  { title: 'MIT OpenCourseWare', url: 'https://ocw.mit.edu', description: 'Free MIT course materials' },
+  { title: 'QuantConnect', url: 'https://www.quantconnect.com', description: 'Algorithmic trading & backtesting' },
+  { title: 'WorldQuant BRAIN', url: 'https://platform.worldquantbrain.com', description: 'Build & simulate alpha models' },
+  { title: 'Kaggle', url: 'https://www.kaggle.com', description: 'Data science competitions & datasets' },
+  { title: 'arXiv Quant Finance', url: 'https://arxiv.org/list/q-fin/recent', description: 'Latest quant finance papers' },
+  { title: 'SSRN Finance', url: 'https://www.ssrn.com/index.cfm/en/finance/', description: 'Finance working papers & research' },
+  { title: 'Khan Academy', url: 'https://www.khanacademy.org', description: 'Free courses for all levels' },
+  { title: 'edX', url: 'https://www.edx.org', description: 'University courses online' },
+  { title: 'Coursera', url: 'https://www.coursera.org', description: 'Courses from top universities' },
+  { title: 'NPTEL', url: 'https://nptel.ac.in', description: 'IIT & IISc online courses' },
+  { title: 'Paul Wilmott', url: 'https://www.wilmott.com', description: 'Quant finance community & forum' },
+  { title: 'QuantLib', url: 'https://www.quantlib.org', description: 'Open-source quant finance library' },
+];
+
+export const internshipsList = [
+  { title: 'Jane Street', url: 'https://www.janestreet.com/join-jane-street/internship/', description: 'Quant Trader/Researcher intern — NYC/London/HK', deadline: '2026-10-15', type: 'Trading', status: 'tba' },
+  { title: 'Citadel', url: 'https://www.citadel.com/careers/open-opportunities/students/', description: 'QR / Trading / SWE intern — Chicago / NYC', deadline: '2026-09-01', type: 'Quant', status: 'tba' },
+  { title: 'Citadel Securities', url: 'https://www.citadelsecurities.com/careers/open-opportunities/students/', description: 'Quant Research / Trading intern — Chicago / NYC / Dublin', deadline: '2026-09-01', type: 'Trading', status: 'tba' },
+  { title: 'Two Sigma', url: 'https://www.twosigma.com/careers/', description: 'Quantitative Research intern — NYC', deadline: '2026-10-01', type: 'Quant', status: 'tba' },
+  { title: 'D.E. Shaw', url: 'https://www.deshaw.com/careers/internships', description: 'Quant Analyst / Trader intern — NYC', deadline: '2026-10-01', type: 'Quant', status: 'tba' },
+  { title: 'Jump Trading', url: 'https://jumptrading.com/careers/', description: 'Quantitative Research intern — Chicago', deadline: '2026-09-15', type: 'Quant', status: 'tba' },
+  { title: 'Optiver', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'Trading / SWE intern — Amsterdam / Chicago', deadline: '2026-09-01', type: 'Trading', status: 'tba' },
+  { title: 'Virtu Financial', url: 'https://www.virtu.com/careers/', description: 'Quant / SWE intern — NYC', deadline: '2026-09-30', type: 'Quant', status: 'tba' },
+  { title: 'Akuna Capital', url: 'https://akunacapital.com/careers', description: 'Quant Research / Trading intern — Chicago', deadline: '2026-10-01', type: 'Trading', status: 'tba' },
+  { title: 'SIG (Susquehanna)', url: 'https://careers.sig.com/students', description: 'Quant Trading intern — Philadelphia / Dublin', deadline: '2026-10-15', type: 'Trading', status: 'tba' },
+  { title: 'IMC Trading', url: 'https://careers.imc.com/us/en/students', description: 'Quant Research / Trading intern — Amsterdam / Chicago', deadline: '2026-09-01', type: 'Trading', status: 'tba' },
+  { title: 'Renaissance Technologies', url: 'https://www.rentec.com/Careers.action?v=i', description: 'Research intern — East Setauket, NY', deadline: '2026-12-01', type: 'Quant', status: 'tba' },
+  { title: 'Goldman Sachs', url: 'https://www.goldmansachs.com/careers/students/programs/', description: 'Strats / Securities intern — NYC / London', deadline: '2026-11-01', type: 'Bank Quant', status: 'tba' },
+  { title: 'Morgan Stanley', url: 'https://www.morganstanley.com/people/students/programs/', description: 'Quant Finance intern — NYC / London', deadline: '2026-11-01', type: 'Bank Quant', status: 'tba' },
+  { title: 'BlackRock', url: 'https://careers.blackrock.com/students', description: 'Quant Analytics intern — NYC / London', deadline: '2026-11-01', type: 'Quant', status: 'tba' },
+];
+
+export const competitionsList = [
+  { title: 'IMC Prosperity 2026', url: 'https://prosperity.imc.com', description: 'Global Python algo trading competition. Manual + automated trading with live leaderboard.', org: 'IMC Trading', prize: '$50,000', deadline: '2026-03-15', category: 'Algo Trading', status: 'open' },
+  { title: 'WorldQuant BRAIN IQC 2026', url: 'https://platform.worldquantbrain.com/iqc', description: '3-stage team competition. Build alpha models on BRAIN platform. Top teams fly to Singapore.', org: 'WorldQuant', prize: 'Cash + Full-Time', deadline: '2026-03-17', category: 'ML & Alpha Research', status: 'open' },
+  { title: 'Citadel Securities Quant Invitational', url: 'https://www.citadelsecurities.com/careers/programs-and-events/the-citadel-securities-quant-invitational/', description: 'Invite-only 3-day STEM challenge. Teams of 2 apply statistical techniques to financial datasets.', org: 'Citadel Securities', prize: '$10,000', deadline: '2026-03-06', category: 'Quant Research', status: 'open' },
+  { title: 'Citadel Securities Trading Invitational NYC', url: 'https://www.citadelsecurities.com/careers/programs-and-events/the-trading-invitational/', description: 'First and second-year undergrad trading challenge. Live simulations. Travel & accommodation covered.', org: 'Citadel Securities', prize: 'Travel + Prizes', deadline: '2026-02-27', category: 'Trading Simulation', status: 'open' },
+  { title: 'Jane Street AMP 2026', url: 'https://www.janestreet.com/join-jane-street/programs-and-events/amp/', description: '6-week program for 2026 HS graduates. Math, CS, probability, algorithmic thinking. Free + scholarship.', org: 'Jane Street', prize: '$5,000 scholarship', deadline: '2026-03-11', category: 'Discovery Program', status: 'open' },
+  { title: 'Optiver Career Kickstarter: Tech', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'First/second-year undergrad SWE program. Coding challenges, trading, system design.', org: 'Optiver', prize: 'Cash + Return Offer', deadline: '2026-02-28', category: 'SWE / Trading', status: 'open' },
+  { title: 'SIG Discover 2026', url: 'https://careers.sig.com/discover', description: 'Spring discovery program for 1st/2nd year students. Probability, trading concepts, problem solving.', org: 'SIG', prize: 'Cash + Travel', deadline: '2026-02-15', category: 'Discovery Program', status: 'open' },
+  { title: 'Two Sigma Quantitative Research Challenge', url: 'https://www.twosigma.com/careers/', description: 'ML-focused research competition using real financial data. Team event.', org: 'Two Sigma', prize: 'Cash + Interview Fast-track', deadline: '2026-04-01', category: 'ML & Data Science', status: 'tba' },
+  { title: 'Rotman International Trading Competition', url: 'https://ritc.rotman.utoronto.ca/', description: 'Annual team trading simulation at University of Toronto. 50+ global university teams.', org: 'Rotman School of Management', prize: 'Trophy + Prestige', deadline: '2026-01-15', category: 'Trading Simulation', status: 'tba' },
+  { title: 'Chicago Trading Company Case Competition', url: 'https://www.chicagotrading.com/careers', description: 'Options & derivatives-focused case competition for undergrad/grad students.', org: 'Chicago Trading Company', prize: 'Cash + Internship Offer', deadline: '2026-03-01', category: 'Quant Research', status: 'tba' },
+];

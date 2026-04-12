@@ -1,33 +1,10 @@
 'use client';
 
 import React from 'react';
+import { quickResources, internshipsList, competitionsList } from '@/lib/sidebarData';
 
-const quickResources = [
-  { title: 'MIT OpenCourseWare', url: 'https://ocw.mit.edu', description: 'Free MIT course materials' },
-  { title: 'QuantConnect', url: 'https://www.quantconnect.com', description: 'Algorithmic trading & backtesting' },
-  { title: 'WorldQuant BRAIN', url: 'https://platform.worldquantbrain.com', description: 'Build & simulate alpha models' },
-  { title: 'Kaggle', url: 'https://www.kaggle.com', description: 'Data science competitions & datasets' },
-  { title: 'arXiv Quant Finance', url: 'https://arxiv.org/list/q-fin/recent', description: 'Latest quant finance papers' },
-  { title: 'SSRN Finance', url: 'https://www.ssrn.com/index.cfm/en/finance/', description: 'Finance working papers & research' },
-];
-
-const internships = [
-  { title: 'Jane Street', url: 'https://www.janestreet.com/join-jane-street/internship/', description: 'QT/QR intern — NYC/London/HK' },
-  { title: 'Citadel', url: 'https://www.citadel.com/careers/open-opportunities/students/', description: 'QR/Trading/SWE intern — Chicago/NYC' },
-  { title: 'Two Sigma', url: 'https://www.twosigma.com/careers/', description: 'Quant Research intern — NYC' },
-  { title: 'D.E. Shaw', url: 'https://www.deshaw.com/careers/internships', description: 'Quant Analyst/Trader intern — NYC' },
-  { title: 'Jump Trading', url: 'https://jumptrading.com/careers/', description: 'Quant Research intern — Chicago' },
-  { title: 'Optiver', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'Trading/SWE intern — Amsterdam/Chicago' },
-];
-
-const competitions = [
-  { title: 'IMC Prosperity 2026', url: 'https://prosperity.imc.com', description: 'Python algo trading — $50k prize · Open' },
-  { title: 'WorldQuant IQC 2026', url: 'https://platform.worldquantbrain.com/iqc', description: 'Alpha model competition — Cash + FT · Open' },
-  { title: 'Citadel Quant Invitational', url: 'https://www.citadelsecurities.com/careers/programs-and-events/the-citadel-securities-quant-invitational/', description: 'STEM challenge London — $10k prize' },
-  { title: 'Jane Street AMP 2026', url: 'https://www.janestreet.com/join-jane-street/programs-and-events/amp/', description: '6-week HS program — $5k scholarship' },
-  { title: 'Optiver Career Kickstarter', url: 'https://optiver.com/working-at-optiver/career-opportunities/', description: 'Tech & trading tracks — Amsterdam' },
-  { title: 'SIG Discover 2026', url: 'https://careers.sig.com/discover', description: 'Spring discovery program — Philadelphia' },
-];
+const internships = internshipsList.slice(0, 6).map(i => ({ title: i.title, url: i.url, description: i.description }));
+const competitions = competitionsList.slice(0, 6).map(c => ({ title: c.title, url: c.url, description: `${c.category} — ${c.prize ?? ''} · ${c.status === 'open' ? 'Open' : 'TBA'}` }));
 
 function SidebarSection({
   title,
