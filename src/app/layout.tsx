@@ -22,10 +22,55 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         baseTheme: dark,
         variables: {
           colorPrimary: '#C17F3A',
-          colorBackground: '#1a0c06',
-          colorInputBackground: 'rgba(255,255,255,0.04)',
+          colorBackground: '#1f0f08',
+          colorInputBackground: 'rgba(255,255,255,0.07)',
           colorInputText: '#E8D5C0',
+          colorText: '#E8D5C0',
+          colorTextSecondary: '#9A7A62',
+          colorNeutral: '#E8D5C0',
           borderRadius: '0.75rem',
+        },
+        elements: {
+          card: {
+            backgroundColor: '#1f0f08',
+            border: '1px solid rgba(180,90,40,0.25)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          },
+          headerTitle: { color: '#C8956A' },
+          headerSubtitle: { color: '#9A7A62' },
+          socialButtonsBlockButton: {
+            backgroundColor: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(180,90,40,0.25)',
+            color: '#E8D5C0',
+            '&:hover': { backgroundColor: 'rgba(255,255,255,0.12)' },
+          },
+          socialButtonsBlockButtonText: { color: '#E8D5C0' },
+          dividerLine: { backgroundColor: 'rgba(180,90,40,0.2)' },
+          dividerText: { color: '#5a3828' },
+          formFieldLabel: { color: '#9A7A62' },
+          formFieldInput: {
+            backgroundColor: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(180,90,40,0.2)',
+            color: '#E8D5C0',
+          },
+          formButtonPrimary: {
+            backgroundColor: '#C17F3A',
+            '&:hover': { backgroundColor: '#D4923F' },
+          },
+          footerActionLink: { color: '#C8956A' },
+          footerActionText: { color: '#9A7A62' },
+          identityPreviewEditButton: { color: '#C8956A' },
+          formFieldAction: { color: '#C8956A' },
+          alternativeMethodsBlockButton: {
+            backgroundColor: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(180,90,40,0.2)',
+            color: '#E8D5C0',
+          },
+          otpCodeFieldInput: {
+            backgroundColor: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(180,90,40,0.2)',
+            color: '#E8D5C0',
+          },
         },
       }}
     >
