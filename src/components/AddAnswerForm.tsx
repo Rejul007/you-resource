@@ -26,6 +26,12 @@ const chipSelected: React.CSSProperties = {
   background: 'rgba(193,127,58,0.15)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.4)',
 };
 
+interface LinkMeta {
+  title: string | null;
+  description: string | null;
+  image: string | null;
+}
+
 export default function AddAnswerForm({ postId, onResourceAdded }: { postId: string; onResourceAdded?: () => void }) {
   const { isSignedIn } = useUser();
   const [step, setStep] = useState<Step>('idle');
@@ -35,6 +41,8 @@ export default function AddAnswerForm({ postId, onResourceAdded }: { postId: str
   const [type, setType] = useState('Link');
   const [comment, setComment] = useState('');
   const [error, setError] = useState('');
+  const [linkMeta, setLinkMeta] = useState<LinkMeta | null>(null);
+  const [fetchingMeta, setFetchingMeta] = useState(false);
 
   const reset = () => {
     setStep('idle');
@@ -44,6 +52,32 @@ export default function AddAnswerForm({ postId, onResourceAdded }: { postId: str
     setType('Link');
     setComment('');
     setError('');
+    setLinkMeta(null);
+    setFetchingMeta(false);
+  };
+
+  const fetchLinkMeta = async (link: string) => {
+    setFetchingMeta(true);
+    try {
+      const res = await fetch(`https://api.microlink.io?url=${encodeURIComponent(link)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status === 'success' && data.data) {
+          setLinkMeta({
+            title: data.data.title || null,
+            description: data.data.description || null,
+            image: data.data.image?.url || null,
+          });
+        }
+      }
+    } catch { /* ignore — meta is optional */ }
+    setFetchingMeta(false);
+  };
+
+  const advanceFromLink = () => {
+    if (!url.trim()) return;
+    fetchLinkMeta(url.trim());
+    setStep('language');
   };
 
   const handlePost = async () => {
@@ -139,17 +173,49 @@ export default function AddAnswerForm({ postId, onResourceAdded }: { postId: str
             placeholder="https://example.com/resource"
             style={inputStyle}
             autoFocus
-            onKeyDown={e => { if (e.key === 'Enter' && url.trim()) setStep('language'); }}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); advanceFromLink(); } }}
           />
           <div className="flex justify-end mt-3">
             <button
-              onClick={() => url.trim() && setStep('language')}
+              onClick={advanceFromLink}
               disabled={!url.trim()}
               className="btn-primary text-xs px-4 py-2 disabled:opacity-40"
             >
               Next →
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Link Preview (shown after URL step) */}
+      {step !== 'link' && step !== 'idle' && (fetchingMeta || linkMeta) && (
+        <div className="mb-3 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(180,90,40,0.12)' }}>
+          {fetchingMeta ? (
+            <div className="flex items-center gap-2 p-3 text-xs" style={{ color: '#9A7A62' }}>
+              <svg className="animate-spin w-3 h-3" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+              Fetching link preview...
+            </div>
+          ) : linkMeta && (
+            <div className="flex gap-3 p-3">
+              {linkMeta.image && (
+                <img
+                  src={linkMeta.image}
+                  alt=""
+                  className="w-16 h-16 rounded-md object-cover shrink-0"
+                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                />
+              )}
+              <div className="min-w-0 flex-1">
+                {linkMeta.title && (
+                  <p className="text-xs font-medium truncate" style={{ color: '#E8D5C0' }}>{linkMeta.title}</p>
+                )}
+                {linkMeta.description && (
+                  <p className="text-xs mt-0.5 line-clamp-2" style={{ color: '#9A7A62' }}>{linkMeta.description}</p>
+                )}
+                <p className="text-xs mt-1 truncate" style={{ color: '#5a3828' }}>{url}</p>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
