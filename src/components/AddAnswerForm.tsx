@@ -188,7 +188,7 @@ export default function AddAnswerForm({ postId, onResourceAdded }: { postId: str
       )}
 
       {/* Link Preview (shown after URL step) */}
-      {step !== 'link' && step !== 'idle' && (fetchingMeta || linkMeta) && (
+      {step !== 'link' && (fetchingMeta || linkMeta) && (
         <div className="mb-3 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(180,90,40,0.12)' }}>
           {fetchingMeta ? (
             <div className="flex items-center gap-2 p-3 text-xs" style={{ color: '#9A7A62' }}>
