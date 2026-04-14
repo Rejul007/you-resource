@@ -14,10 +14,12 @@
       "Bash(curl -s https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/competitions.json)",
       "Bash(curl -s https://raw.githubusercontent.com/S1tanshu/QuantSun-data/main/internships.json)",
       "Bash(python3:*)",
-      "Bash(node scripts/seed.mjs)"
+      "Bash(node scripts/seed.mjs)",
+      "Bash(npm uninstall:*)"
     ],
     "additionalDirectories": [
-      "/tmp"
+      "/tmp",
+      "/Users/Rejul/Desktop/claude-hackathon/src/app/sign-in"
     ]
   }
 }

@@ -1,32 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import type { User } from '@supabase/supabase-js';
+import { usePathname } from 'next/navigation';
+import { useUser, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const supabase = createClient();
+  const { isSignedIn, user } = useUser();
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-    router.refresh();
-  };
-
-  const displayName = user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'User';
+  const displayName = user?.username || user?.firstName || 'User';
 
   const navLink = (href: string, label: string) => {
     const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -56,8 +38,7 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-15" style={{ height: '60px' }}>
-          {/* Logo + Nav */}
+        <div className="flex items-center justify-between" style={{ height: '60px' }}>
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
               <div
@@ -78,45 +59,41 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right side */}
           <div className="flex items-center gap-3">
-            <Link href="/request" className="btn-primary text-sm">
-              <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Request
-            </Link>
-            {user ? (
+            {isSignedIn && (
+              <Link href="/request" className="btn-primary text-sm">
+                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Request
+              </Link>
+            )}
+            {isSignedIn ? (
               <div className="flex items-center gap-2">
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold uppercase"
-                  style={{ background: 'rgba(193,127,58,0.15)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.3)' }}
-                >
-                  {displayName.charAt(0)}
-                </div>
                 <span className="hidden sm:block text-sm font-medium" style={{ color: '#9A7A62' }}>{displayName}</span>
-                <button
-                  onClick={handleSignOut}
-                  className="text-xs px-2.5 py-1.5 rounded-lg transition-all duration-150"
-                  style={{ color: '#5a3828', border: '1px solid rgba(180,90,40,0.15)' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#9A7A62'; e.currentTarget.style.borderColor = 'rgba(180,90,40,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = '#5a3828'; e.currentTarget.style.borderColor = 'rgba(180,90,40,0.15)'; }}
-                >
-                  Sign out
-                </button>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: { width: '32px', height: '32px' },
+                    },
+                  }}
+                />
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Link href="/auth/login" className="text-sm font-medium transition-colors duration-150 px-3 py-1.5" style={{ color: '#9A7A62' }}>
-                  Sign in
-                </Link>
-                <Link
-                  href="/auth/signup"
-                  className="text-sm font-semibold px-3 py-1.5 rounded-xl transition-all duration-150"
-                  style={{ background: 'rgba(255,255,255,0.06)', color: '#C8956A', border: '1px solid rgba(180,90,40,0.25)' }}
-                >
-                  Sign up
-                </Link>
+                <SignInButton mode="redirect">
+                  <button className="text-sm font-medium transition-colors duration-150 px-3 py-1.5" style={{ color: '#9A7A62' }}>
+                    Sign in
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="redirect">
+                  <button
+                    className="text-sm font-semibold px-3 py-1.5 rounded-xl transition-all duration-150"
+                    style={{ background: 'rgba(255,255,255,0.06)', color: '#C8956A', border: '1px solid rgba(180,90,40,0.25)' }}
+                  >
+                    Sign up
+                  </button>
+                </SignUpButton>
               </div>
             )}
           </div>

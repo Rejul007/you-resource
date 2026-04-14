@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getSubjectColors } from '@/lib/subjectColors';
+import { adminSupabase } from '@/lib/supabase/admin';
 import RealtimePost from '@/components/RealtimePost';
 
 export const dynamic = 'force-dynamic';
@@ -8,25 +9,22 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeComment(c: any): any {
-  return {
-    id: c.id,
-    content: c.content,
-    authorName: c.author_name,
-    votes: c.votes,
-    createdAt: c.created_at,
-    parentId: c.parent_id ?? null,
-    postId: c.post_id,
-    replies: (c.replies || []).map((r: any) => normalizeComment(r)),
-  };
-}
-
 export default async function PostPage({ params }: PageProps) {
   const { id } = await params;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/posts/${id}`, { cache: 'no-store' });
-  if (!res.ok) notFound();
-  const post = await res.json();
+
+  const { data: post, error } = await adminSupabase
+    .from('posts')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error || !post) notFound();
+
+  const { data: resources } = await adminSupabase
+    .from('resources')
+    .select('*')
+    .eq('post_id', id)
+    .order('votes', { ascending: false });
 
   const colors = getSubjectColors(post.subject);
   let topics: string[] = [];
@@ -34,15 +32,11 @@ export default async function PostPage({ params }: PageProps) {
 
   const formattedDate = new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const serializedResources = (post.resources || []).map((r: any) => ({
-    id: r.id, url: r.url, title: r.title, description: r.description,
+  const serializedResources = (resources || []).map((r) => ({
+    id: r.id, url: r.url, description: r.description,
     language: r.language, price: r.price, type: r.type,
     submittedBy: r.submitted_by, votes: r.votes, createdAt: r.created_at,
   }));
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const serializedComments = (post.comments || []).map((c: any) => normalizeComment(c));
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -62,7 +56,7 @@ export default async function PostPage({ params }: PageProps) {
             {post.subject}
           </span>
           <span className="text-xs" style={{ color: '#5a3828' }}>
-            {serializedResources.length} {serializedResources.length === 1 ? 'resource' : 'resources'}
+            {serializedResources.length} {serializedResources.length === 1 ? 'answer' : 'answers'}
           </span>
         </div>
 
@@ -95,8 +89,8 @@ export default async function PostPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Realtime Resources + Comments */}
-      <RealtimePost postId={post.id} initialResources={serializedResources} initialComments={serializedComments} />
+      {/* Answers */}
+      <RealtimePost postId={post.id} initialResources={serializedResources} />
     </div>
   );
 }

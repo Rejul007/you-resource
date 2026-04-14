@@ -4,7 +4,7 @@ export const metadata = { title: 'Resources — StudyHub' };
 
 export default function ResourcesPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-4" style={{
@@ -27,7 +27,7 @@ export default function ResourcesPage() {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {quickResources.map((item) => (
           <a
             key={item.url}

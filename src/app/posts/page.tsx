@@ -1,11 +1,10 @@
-import { createClient } from '@/lib/supabase/server';
+import { adminSupabase } from '@/lib/supabase/admin';
 import PostsFilterClient from '@/components/PostsFilterClient';
 
 export const dynamic = 'force-dynamic';
 
 export default async function PostsPage() {
-  const supabase = await createClient();
-  const { data: rawPosts } = await supabase
+  const { data: rawPosts } = await adminSupabase
     .from('posts')
     .select('*, resources(count)')
     .order('created_at', { ascending: false });
