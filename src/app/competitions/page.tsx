@@ -31,7 +31,7 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function CompetitionsPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-4" style={{
@@ -53,8 +53,8 @@ export default function CompetitionsPage() {
         </p>
       </div>
 
-      {/* List */}
-      <div className="space-y-3">
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {competitionsList.map((item) => {
           const catStyle = categoryColors[item.category] ?? { bg: 'rgba(193,127,58,0.08)', color: '#C8956A', border: 'rgba(193,127,58,0.2)' };
           return (
@@ -63,22 +63,17 @@ export default function CompetitionsPage() {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-2xl p-5 transition-all duration-150"
+              className="group block rounded-2xl p-5 transition-all duration-200"
               style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(180,90,40,0.18)' }}
             >
-              {/* Top row */}
               <div className="flex items-start justify-between gap-3 mb-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-semibold" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>
+                <div className="min-w-0">
+                  <h3 className="font-semibold mb-1 truncate" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>
                     {item.title}
-                  </span>
-                  <span
-                    className="px-2 py-0.5 rounded-full text-xs font-medium"
-                    style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}
-                  >
-                    {item.category}
-                  </span>
-                  <StatusBadge status={item.status} />
+                  </h3>
+                  <p className="text-xs" style={{ color: '#5a3828', fontFamily: 'JetBrains Mono, monospace' }}>
+                    {item.org}
+                  </p>
                 </div>
                 <svg
                   className="w-4 h-4 shrink-0 mt-0.5 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -89,16 +84,19 @@ export default function CompetitionsPage() {
                 </svg>
               </div>
 
-              {/* Org */}
-              <p className="text-xs mb-2" style={{ color: '#5a3828', fontFamily: 'JetBrains Mono, monospace' }}>
-                {item.org}
-              </p>
+              <p className="text-sm mb-3 line-clamp-2" style={{ color: '#9A7A62' }}>{item.description}</p>
 
-              {/* Description */}
-              <p className="text-sm mb-3" style={{ color: '#9A7A62' }}>{item.description}</p>
+              <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                <span
+                  className="px-2 py-0.5 rounded-full text-xs font-medium"
+                  style={{ background: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}
+                >
+                  {item.category}
+                </span>
+                <StatusBadge status={item.status} />
+              </div>
 
-              {/* Prize + Deadline */}
-              <div className="flex flex-wrap items-center gap-4 text-xs" style={{ color: '#5a3828' }}>
+              <div className="flex flex-wrap items-center gap-3 text-xs" style={{ color: '#5a3828' }}>
                 {item.prize && (
                   <div className="flex items-center gap-1.5">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +110,7 @@ export default function CompetitionsPage() {
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    Deadline: {item.deadline}
+                    {item.deadline}
                   </div>
                 )}
               </div>

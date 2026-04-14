@@ -4,11 +4,18 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { getSubjectColors } from '@/lib/subjectColors';
-import PostCard from './PostCard';
 
 type Step = 'form' | 'classifying' | 'tags' | 'similar' | 'submitting';
 
 const DRAFT_KEY = 'studyhub_request_draft';
+
+const SUBJECT_OPTIONS = [
+  'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science',
+  'Data Science', 'Engineering Mechanics', 'Psychology', 'Economics',
+  'Statistics', 'Machine Learning', 'Electrical Engineering',
+  'History', 'Literature', 'Philosophy', 'Finance',
+  'Accounting', 'Business', 'Medicine', 'Law',
+];
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '11px 14px', borderRadius: '10px', fontSize: '0.875rem',
@@ -34,6 +41,7 @@ export default function RequestForm() {
   const [error, setError] = useState('');
   const [form, setForm] = useState({ title: '', description: '' });
   const [classified, setClassified] = useState<{ subject: string; topics: string[] } | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [similarPosts, setSimilarPosts] = useState<SimilarPost[]>([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
@@ -104,7 +112,8 @@ export default function RequestForm() {
       // Limit to max 5 tags
       const topics = (data.topics || []).slice(0, 5);
       setClassified({ subject: data.subject, topics });
-      setSelectedTopics(topics); // Pre-select all
+      setSelectedSubject(data.subject);
+      setSelectedTopics([]); // Start deselected — user picks what applies
       setStep('tags');
     } catch {
       setError('Failed to classify your request. Please try again.');
@@ -148,7 +157,7 @@ export default function RequestForm() {
         body: JSON.stringify({
           title: form.title,
           description: form.description,
-          subject: classified.subject,
+          subject: selectedSubject,
           topics: selectedTopics,
         }),
       });
@@ -162,7 +171,7 @@ export default function RequestForm() {
     }
   };
 
-  const colors = classified ? getSubjectColors(classified.subject) : null;
+  const colors = selectedSubject ? getSubjectColors(selectedSubject) : null;
 
   const Spinner = () => (
     <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
@@ -230,18 +239,38 @@ export default function RequestForm() {
             </div>
           </div>
 
-          {/* Subject */}
-          <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#5a3828' }}>Subject</p>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold" style={colors?.style}>
-              {classified?.subject}
-            </span>
+          {/* Subject Selection */}
+          <div className="mb-5">
+            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#5a3828' }}>
+              Subject <span className="normal-case font-normal">— AI suggested: <span style={{ color: '#C8956A' }}>{classified?.subject}</span></span>
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {/* Ensure AI subject is first if not in the list */}
+              {Array.from(new Set([classified?.subject || '', ...SUBJECT_OPTIONS])).filter(Boolean).map(subj => {
+                const isSelected = selectedSubject === subj;
+                const subjColors = getSubjectColors(subj);
+                return (
+                  <button
+                    key={subj}
+                    onClick={() => setSelectedSubject(subj)}
+                    className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150"
+                    style={isSelected
+                      ? subjColors.style
+                      : { background: 'rgba(255,255,255,0.03)', color: '#5a3828', border: '1px solid rgba(180,90,40,0.15)' }
+                    }
+                  >
+                    {isSelected && <span className="mr-1">✓</span>}
+                    {subj}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Selectable Topics */}
           <div className="mb-4">
             <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#5a3828' }}>
-              Topics <span className="normal-case font-normal">— tap to toggle ({selectedTopics.length} selected)</span>
+              Topics <span className="normal-case font-normal">— tap to toggle ({selectedTopics.length}/5 selected)</span>
             </p>
             <div className="flex flex-wrap gap-2">
               {classified?.topics.map(topic => {
@@ -287,7 +316,7 @@ export default function RequestForm() {
               'Continue'
             )}
           </button>
-          <button onClick={() => { setStep('form'); setClassified(null); setSelectedTopics([]); }} className="btn-secondary px-5">
+          <button onClick={() => { setStep('form'); setClassified(null); setSelectedSubject(''); setSelectedTopics([]); }} className="btn-secondary px-5">
             Edit
           </button>
         </div>
@@ -309,19 +338,43 @@ export default function RequestForm() {
               Check if someone already asked for what you need. Your draft is saved.
             </p>
             <div className="space-y-3 max-h-96 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(193,127,58,0.3) transparent' }}>
-              {similarPosts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  description={post.description}
-                  subject={post.subject}
-                  topics={post.topics}
-                  authorName={post.author_name}
-                  createdAt={post.created_at}
-                  resourceCount={post.resources?.[0]?.count ?? 0}
-                />
-              ))}
+              {similarPosts.map((post) => {
+                const postColors = getSubjectColors(post.subject);
+                let postTopics: string[] = [];
+                try { postTopics = JSON.parse(post.topics); } catch { postTopics = []; }
+                return (
+                  <a
+                    key={post.id}
+                    href={`/posts/${post.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group rounded-2xl p-5 transition-all duration-200"
+                    style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(180,90,40,0.18)' }}
+                  >
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style={postColors.style}>
+                        {post.subject}
+                      </span>
+                      <div className="flex items-center gap-1 text-xs shrink-0" style={{ color: '#5a3828' }}>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span>{post.resources?.[0]?.count ?? 0} resources</span>
+                      </div>
+                    </div>
+                    <h3 className="font-semibold mb-1 line-clamp-2" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>{post.title}</h3>
+                    <p className="text-sm mb-2 line-clamp-2" style={{ color: '#9A7A62' }}>{post.description}</p>
+                    {postTopics.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {postTopics.slice(0, 3).map(t => (
+                          <span key={t} className="px-2 py-0.5 rounded-lg text-xs" style={{ background: 'rgba(193,127,58,0.08)', color: '#9A7A62', border: '1px solid rgba(180,90,40,0.15)' }}>{t}</span>
+                        ))}
+                        {postTopics.length > 3 && <span className="px-2 py-0.5 rounded-lg text-xs" style={{ background: 'rgba(255,255,255,0.04)', color: '#5a3828' }}>+{postTopics.length - 3}</span>}
+                      </div>
+                    )}
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}
@@ -337,7 +390,7 @@ export default function RequestForm() {
         <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(180,90,40,0.18)' }}>
           <p className="text-sm font-semibold mb-1" style={{ color: '#C8956A', fontFamily: 'Syne, sans-serif' }}>{form.title}</p>
           <div className="flex flex-wrap gap-1.5 mt-2">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style={colors?.style}>{classified?.subject}</span>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style={colors?.style}>{selectedSubject}</span>
             {selectedTopics.map(t => (
               <span key={t} className="px-2 py-0.5 rounded-full text-xs" style={{ background: 'rgba(193,127,58,0.1)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.22)' }}>{t}</span>
             ))}

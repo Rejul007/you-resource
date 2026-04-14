@@ -32,7 +32,7 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function InternshipsPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-10">
       {/* Header */}
       <div className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs mb-4" style={{
@@ -54,8 +54,8 @@ export default function InternshipsPage() {
         </p>
       </div>
 
-      {/* List */}
-      <div className="space-y-3">
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {internshipsList.map((item) => {
           const typeStyle = typeColors[item.type] ?? { bg: 'rgba(193,127,58,0.08)', color: '#C8956A', border: 'rgba(193,127,58,0.2)' };
           return (
@@ -64,50 +64,45 @@ export default function InternshipsPage() {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-start gap-4 rounded-2xl p-5 transition-all duration-150"
+              className="group block rounded-2xl p-5 transition-all duration-200"
               style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(180,90,40,0.18)' }}
             >
-              {/* Company initial */}
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold uppercase shrink-0"
-                style={{ background: 'rgba(193,127,58,0.12)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.22)' }}
-              >
-                {item.title.charAt(0)}
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <span className="font-semibold" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>
-                    {item.title}
-                  </span>
-                  <span
-                    className="px-2 py-0.5 rounded-full text-xs font-medium"
-                    style={{ background: typeStyle.bg, color: typeStyle.color, border: `1px solid ${typeStyle.border}` }}
-                  >
-                    {item.type}
-                  </span>
-                  <StatusBadge status={item.status} />
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold uppercase shrink-0"
+                  style={{ background: 'rgba(193,127,58,0.12)', color: '#C8956A', border: '1px solid rgba(193,127,58,0.22)' }}
+                >
+                  {item.title.charAt(0)}
                 </div>
-                <p className="text-sm mb-2" style={{ color: '#9A7A62' }}>{item.description}</p>
-                {item.deadline && (
-                  <div className="flex items-center gap-1.5 text-xs" style={{ color: '#5a3828' }}>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Deadline: {item.deadline}
-                  </div>
-                )}
+                <svg
+                  className="w-4 h-4 shrink-0 mt-0.5 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  style={{ color: '#5a3828' }}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
               </div>
-
-              {/* Arrow */}
-              <svg
-                className="w-4 h-4 shrink-0 mt-1 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                style={{ color: '#5a3828' }}
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
+              <h3 className="font-semibold mb-1 truncate" style={{ fontFamily: 'Syne, sans-serif', color: '#C8956A' }}>
+                {item.title}
+              </h3>
+              <p className="text-sm mb-3 line-clamp-2" style={{ color: '#9A7A62' }}>{item.description}</p>
+              <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                <span
+                  className="px-2 py-0.5 rounded-full text-xs font-medium"
+                  style={{ background: typeStyle.bg, color: typeStyle.color, border: `1px solid ${typeStyle.border}` }}
+                >
+                  {item.type}
+                </span>
+                <StatusBadge status={item.status} />
+              </div>
+              {item.deadline && (
+                <div className="flex items-center gap-1.5 text-xs" style={{ color: '#5a3828' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Deadline: {item.deadline}
+                </div>
+              )}
             </a>
           );
         })}
